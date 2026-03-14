@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="manifest" href="./manifest.json">
   <meta charset="UTF-8">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -936,5 +937,14 @@ tick();
 setInterval(tick,30000);
 resetIdle();
 </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./sw.js')
+          .then(function (reg) { console.log('[PWA] SW registered:', reg.scope); })
+          .catch(function (err) { console.warn('[PWA] SW registration failed:', err); });
+      });
+    }
+  </script>
 </body>
 </html>
