@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Westfield Grand – Mall Directory</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap?v=k9r3m2" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --primary:#00b7af;
+      --primary-d:#008f89;
+      --dark:#0d1520;
+      --dark2:#141d2a;
+      --dark3:#1c2a3a;
+      --dark4:#243244;
+      --text:#dce8f2;
+      --muted:#6a8099;
+      --border:rgba(255,255,255,0.08);
+      --white:#fff;
+    }
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--dark);
+      color:var(--text);
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      user-select:none;
+    }
+
+    /* ── HEADER ── */
+    .hdr{
+      background:var(--dark2);
+      border-bottom:1px solid var(--border);
+      padding:10px 20px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-shrink:0;
+      z-index:20;
+    }
+    .logo-wrap{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+    .logo-icon{
+      width:42px;height:42px;
+      background:linear-gradient(135deg,var(--primary),var(--primary-d));
+      border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:22px;
+      box-shadow:0 0 16px rgba(0,183,175,0.3);
+    }
+    .logo-text{line-height:1.2;}
+    .logo-name{font-size:18px;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
+    .logo-sub{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+    .search-wrap{
+      flex:1;max-width:420px;position:relative;
+    }
+    .search-wrap input{
+      width:100%;
+      background:var(--dark3);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px 14px 10px 40px;
+      color:var(--text);
+      font-family:inherit;font-size:14px;
+      outline:none;
+      transition:border-color .2s;
+    }
+    .search-wrap input:focus{border-color:var(--primary);}
+    .search-wrap input::placeholder{color:var(--muted);}
+    .search-icon{
+      position:absolute;left:13px;top:50%;transform:translateY(-50%);
+      color:var(--muted);font-size:15px;pointer-events:none;
+    }
+    .search-dropdown{
+      position:absolute;top:calc(100% + 6px);left:0;right:0;
+      background:var(--dark2);
+      border:1px solid var(--border);
+      border-radius:10px;
+      overflow:hidden;
+      z-index:100;
+      display:none;
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    }
+    .search-dropdown.show{display:block;}
+    .sd-item{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 14px;cursor:pointer;
+      transition:background .15s;
+    }
+    .sd-item:hover{background:var(--dark3);}
+    .sd-name{font-size:13px;font-weight:600;color:var(--white);}
+    .sd-meta{font-size:11px;color:var(--muted);}
+    .floor-tabs{display:flex;gap:4px;flex-shrink:0;}
+    .ftab{
+      padding:8px 18px;
+      border-radius:8px;border:1px solid var(--border);
+      background:transparent;color:var(--muted);
+      font-family:inherit;font-size:13px;font-weight:600;
+      cursor:pointer;transition:all .2s;
+    }
+    .ftab.active{
+      background:var(--primary);border-color:var(--primary);
+      color:var(--white);
+      box-shadow:0 0 12px rgba(0,183,175,0.35);
+    }
+    .hdr-clock{
+      font-size:18px;font-weight:700;color:var(--white);
+      min-width:85px;text-align:right;flex-shrink:0;
+    }
+
+    /* ── LAYOUT ── */
+    .body{display:flex;flex:1;overflow:hidden;}
+
+    /* ── SIDEBAR ── */
+    .sidebar{
+      width:290px;flex-shrink:0;
+      background:var(--dark2);
+      border-right:1px solid var(--border);
+      display:flex;flex-direction:column;
+      overflow:hidden;
+    }
+    .cats{
+      padding:10px;
+      border-bottom:1px solid var(--border);
+      display:flex;flex-wrap:wrap;gap:5px;
+    }
+    .cbt{
+      padding:5px 11px;
+      border-radius:20px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--muted);
+      font-family:inherit;font-size:11px;font-weight:500;
+      cursor:pointer;transition:all .2s;
+      display:flex;align-items:center;gap:4px;
+    }
+    .cbt.on{border-color:currentColor;}
+    .slist{flex:1;overflow-y:auto;padding:6px;}
+    .slist::-webkit-scrollbar{width:3px;}
+    .slist::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+    .slist-head{
+      font-size:10px;font-weight:700;text-transform:uppercase;
+      letter-spacing:1.2px;color:var(--muted);
+      padding:8px 10px 4px;
+    }
+    .sitem{
+      display:flex;align-items:center;gap:10px;
+      padding:9px 10px;border-radius:8px;
+      cursor:pointer;transition:all .2s;margin-bottom:2px;
+      border:1px solid transparent;
+    }
+    .sitem:hover{background:var(--dark3);}
+    .sitem.sel{
+      background:rgba(0,183,175,0.1);
+      border-color:rgba(0,183,175,0.25);
+    }
+    .sitem-icon{
+      width:34px;height:34px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:17px;flex-shrink:0;
+    }
+    .sitem-info{flex:1;min-width:0;}
+    .sitem-name{font-size:12px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sitem-sub{font-size:10px;color:var(--muted);}
+    .sitem-fl{
+      font-size:10px;padding:2px 7px;
+      border-radius:4px;background:var(--dark4);
+      color:var(--muted);flex-shrink:0;
+    }
+    .no-res{padding:30px 16px;text-align:center;color:var(--muted);}
+    .no-res-icon{font-size:36px;margin-bottom:10px;}
+
+    /* ── MAP ── */
+    .map-wrap{
+      flex:1;position:relative;overflow:hidden;
+      background:radial-gradient(ellipse at 50% 40%,#0f1c2a 0%,#080f18 100%);
+    }
+    #mall-svg{width:100%;height:100%;display:block;}
+
+    /* ── INFO PANEL ── */
+    .info-panel{
+      position:absolute;bottom:0;left:0;right:0;
+      background:var(--dark2);
+      border-top:2px solid var(--primary);
+      padding:14px 18px;
+      transform:translateY(110%);
+      transition:transform .35s cubic-bezier(.4,0,.2,1);
+      z-index:10;
+      box-shadow:0 -4px 30px rgba(0,0,0,0.4);
+    }
+    .info-panel.show{transform:translateY(0);}
+    .info-row{display:flex;align-items:center;gap:14px;}
+    .info-ico{
+      width:52px;height:52px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;flex-shrink:0;
+    }
+    .info-details{flex:1;}
+    .info-name{font-size:17px;font-weight:800;color:var(--white);}
+    .info-cat{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--primary);margin-top:1px;}
+    .info-desc{font-size:12px;color:var(--muted);margin-top:3px;}
+    .info-stats{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap;}
+    .istat{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+    .istat span{color:var(--text);}
+    .btn-dir{
+      padding:12px 22px;
+      background:var(--primary);border:none;border-radius:10px;
+      color:var(--white);font-family:inherit;font-size:14px;font-weight:700;
+      cursor:pointer;transition:all .2s;
+      display:flex;align-items:center;gap:8px;flex-shrink:0;
+      box-shadow:0 4px 14px rgba(0,183,175,0.3);
+    }
+    .btn-dir:hover{background:var(--primary-d);transform:translateY(-1px);}
+    .btn-close{
+      padding:10px;background:transparent;
+      border:1px solid var(--border);border-radius:8px;
+      color:var(--muted);font-size:16px;cursor:pointer;
+      transition:all .2s;flex-shrink:0;
+    }
+    .btn-close:hover{background:var(--dark3);color:var(--text);}
+
+    /* ── LEGEND ── */
+    .legend{
+      position:absolute;top:12px;right:12px;
+      background:rgba(13,21,32,0.88);
+      border:1px solid var(--border);
+      border-radius:10px;padding:10px 14px;
+      backdrop-filter:blur(6px);
+      pointer-events:none;
+    }
+    .leg-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:7px;}
+    .leg-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text);margin-bottom:4px;}
+    .leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+    /* ── ELEVATOR NOTICE ── */
+    .elev-notice{
+      position:absolute;bottom:0;left:0;right:0;
+      background:linear-gradient(135deg,#1a2f20,#1a3020);
+      border-top:2px solid #27ae60;
+      padding:10px 18px;
+      transform:translateY(110%);
+      transition:transform .35s cubic-bezier(.4,0,.2,1);
+      z-index:11;
+      display:flex;align-items:center;gap:12px;
+    }
+    .elev-notice.show{transform:translateY(0);}
+
+    /* ── ANIMATIONS ── */
+    @keyframes pathDraw{to{stroke-dashoffset:0;}}
+    @keyframes kioskPulse{
+      0%{r:14;opacity:.8;stroke-width:2;}
+      100%{r:28;opacity:0;stroke-width:0.5;}
+    }
+    @keyframes destPulse{
+      0%{r:8;opacity:.9;}
+      100%{r:22;opacity:0;}
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo-wrap">
+    <div class="logo-icon">🏬</div>
+    <div class="logo-text">
+      <div class="logo-name">Westfield Grand</div>
+      <div class="logo-sub">Shopping &amp; Entertainment</div>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="srch" placeholder="Search stores, restaurants, services…" autocomplete="off">
+    <div class="search-dropdown" id="srch-dd"></div>
+  </div>
+
+  <div class="floor-tabs">
+    <button class="ftab active" data-fl="1" onclick="switchFloor(1)">Floor 1</button>
+    <button class="ftab" data-fl="2" onclick="switchFloor(2)">Floor 2</button>
+  </div>
+
+  <div class="hdr-clock" id="clock">–</div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="cats" id="cats"></div>
+    <div class="slist" id="slist"></div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-wrap" id="map-wrap">
+    <svg id="mall-svg" viewBox="0 0 1000 660" preserveAspectRatio="xMidYMid meet"></svg>
+
+    <div class="legend">
+      <div class="leg-title">Legend</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#00b7af"></div>You Are Here</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#e74c3c"></div>Destination</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#f39c12"></div>Route</div>
+      <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,0.15)"></div>Corridor</div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="info-panel" id="info-panel">
+      <div class="info-row" id="info-content"></div>
+    </div>
+
+    <!-- ELEVATOR NOTICE -->
+    <div class="elev-notice" id="elev-notice">
+      <span style="font-size:28px">🛗</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#fff">Take the Elevator to Floor <span id="elev-fl">2</span></div>
+        <div style="font-size:12px;color:#aaa;margin-top:2px">Elevators located at center corridor — follow the route to the elevator</div>
+      </div>
+      <button class="btn-close" onclick="closeNotice()" style="margin-left:auto">✕</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+
+// Corridor geometry (SVG coordinates)
+const CY = 325;   // horizontal corridor center y
+const CX = 500;   // vertical corridor center x
+const CT = 280;   // corridor top (north edge of h-corridor)
+const CB = 370;   // corridor bottom (south edge of h-corridor)
+const CL = 460;   // corridor left (west edge of v-corridor)
+const CR = 540;   // corridor right (east edge of v-corridor)
+const KIOSK = {x:500, y:325};
+
+// Elevator positions
+const ELEV_N = {x:500, y:180};
+const ELEV_S = {x:500, y:490};
+
+const CATEGORIES = [
+  {id:'all',     label:'All',            icon:'🏪', color:'#8899aa'},
+  {id:'fashion', label:'Fashion',        icon:'👗', color:'#e91e8c'},
+  {id:'food',    label:'Food & Dining',  icon:'🍔', color:'#f39c12'},
+  {id:'tech',    label:'Tech',           icon:'💻', color:'#3498db'},
+  {id:'enter',   label:'Entertainment',  icon:'🎬', color:'#e74c3c'},
+  {id:'sports',  label:'Sports',         icon:'⚽', color:'#27ae60'},
+  {id:'health',  label:'Health',         icon:'💊', color:'#1abc9c'},
+  {id:'home',    label:'Home',           icon:'🏠', color:'#e67e22'},
+  {id:'service', label:'Services',       icon:'✂️',  color:'#9b59b6'},
+  {id:'kids',    label:'Kids',           icon:'🧸', color:'#f1c40f'},
+  {id:'leisure', label:'Leisure',        icon:'🎭', color:'#8e44ad'},
+];
+
+// Stores: {id,fl,name,cat,icon,desc,hours,x,y,w,h}
+const STORES = [
+  // ── FLOOR 1 ── NW quadrant (x:20-460, y:20-280)
+  {id:1,  fl:1, name:'Fashion Hub',       cat:'fashion', icon:'👗', desc:'Trendy clothing for men, women & kids',         hours:'10am – 9pm',  x:25,  y:25,  w:135, h:115},
+  {id:2,  fl:1, name:'The Shoe Rack',     cat:'fashion', icon:'👟', desc:'Footwear for every occasion & budget',          hours:'10am – 9pm',  x:175, y:25,  w:130, h:115},
+  {id:3,  fl:1, name:'Luxe Accessories',  cat:'fashion', icon:'💍', desc:'Bags, belts, watches & jewellery',              hours:'10am – 9pm',  x:320, y:25,  w:130, h:115},
+  {id:4,  fl:1, name:'Pharmacy Plus',     cat:'health',  icon:'💊', desc:'Prescription meds, vitamins & wellness',        hours:'9am – 10pm',  x:25,  y:155, w:110, h:110},
+  {id:5,  fl:1, name:'Book Haven',        cat:'leisure', icon:'📚', desc:'Books, magazines, stationery & gifts',          hours:'10am – 9pm',  x:150, y:155, w:135, h:110},
+  {id:6,  fl:1, name:'Home Decor Studio', cat:'home',    icon:'🏠', desc:'Furniture, lighting & home accessories',        hours:'10am – 8pm',  x:300, y:155, w:150, h:110},
+
+  // ── FLOOR 1 ── NE quadrant (x:540-980, y:20-280)
+  {id:7,  fl:1, name:'TechZone',          cat:'tech',    icon:'💻', desc:'Laptops, tablets & the latest gadgets',         hours:'10am – 9pm',  x:545, y:25,  w:135, h:115},
+  {id:8,  fl:1, name:'Game World',        cat:'enter',   icon:'🎮', desc:'Video games, consoles & collectibles',          hours:'10am – 9pm',  x:695, y:25,  w:130, h:115},
+  {id:9,  fl:1, name:'Sports Arena',      cat:'sports',  icon:'⚽', desc:'Sportswear, equipment & outdoor gear',          hours:'10am – 8pm',  x:840, y:25,  w:130, h:115},
+  {id:10, fl:1, name:'Mobile Hub',        cat:'tech',    icon:'📱', desc:'Smartphones, accessories & repairs',            hours:'9am – 9pm',   x:545, y:155, w:110, h:110},
+  {id:11, fl:1, name:'Optical Center',    cat:'service', icon:'👓', desc:'Prescription glasses & eye examinations',       hours:'10am – 7pm',  x:670, y:155, w:125, h:110},
+  {id:12, fl:1, name:'Jewelry Studio',    cat:'fashion', icon:'💎', desc:'Fine jewelry, watches & custom designs',        hours:'10am – 8pm',  x:810, y:155, w:160, h:110},
+
+  // ── FLOOR 1 ── SW quadrant (x:20-460, y:370-640)
+  {id:13, fl:1, name:'Coffee Corner',     cat:'food',    icon:'☕', desc:'Artisan coffee, teas & fresh pastries',         hours:'7am – 10pm',  x:25,  y:378, w:120, h:95},
+  {id:14, fl:1, name:'Burger Palace',     cat:'food',    icon:'🍔', desc:'Gourmet burgers, hot dogs & loaded fries',      hours:'10am – 10pm', x:158, y:378, w:120, h:95},
+  {id:15, fl:1, name:'Pizza Express',     cat:'food',    icon:'🍕', desc:'Authentic Italian pizza & fresh pasta',         hours:'11am – 10pm', x:292, y:378, w:153, h:95},
+  {id:16, fl:1, name:'Food Court',        cat:'food',    icon:'🍜', desc:'International cuisine — 14 vendors inside',    hours:'10am – 10pm', x:25,  y:490, w:420, h:140},
+
+  // ── FLOOR 1 ── SE quadrant (x:540-980, y:370-640)
+  {id:17, fl:1, name:'Cineplex',          cat:'enter',   icon:'🎬', desc:'8 screens · 3D · 4DX · Dolby Atmos',           hours:'10am – 12am', x:545, y:378, w:165, h:252},
+  {id:18, fl:1, name:'Kids Zone',         cat:'kids',    icon:'🎠', desc:'Indoor playground, rides & soft play',          hours:'10am – 9pm',  x:725, y:378, w:130, h:120},
+  {id:19, fl:1, name:'Toy Kingdom',       cat:'kids',    icon:'🧸', desc:'Toys, games, puzzles & educational sets',       hours:'10am – 9pm',  x:869, y:378, w:101, h:120},
+  {id:20, fl:1, name:'Nail & Spa',        cat:'service', icon:'💅', desc:'Manicure, pedicure & relaxation treatments',    hours:'10am – 8pm',  x:725, y:513, w:120, h:117},
+  {id:21, fl:1, name:'Fitness First',     cat:'sports',  icon:'🏋️', desc:'Gym supplements, equipment & activewear',      hours:'9am – 9pm',   x:860, y:513, w:110, h:117},
+
+  // ── FLOOR 2 ── NW quadrant
+  {id:22, fl:2, name:'Luxury Boutique',   cat:'fashion', icon:'👜', desc:'Designer labels & exclusive luxury goods',      hours:'10am – 9pm',  x:25,  y:25,  w:150, h:115},
+  {id:23, fl:2, name:'Art & Soul Gallery',cat:'leisure', icon:'🎨', desc:'Contemporary art, prints & collectibles',       hours:'10am – 8pm',  x:190, y:25,  w:130, h:115},
+  {id:24, fl:2, name:'Music World',       cat:'leisure', icon:'🎸', desc:'Instruments, sheet music & lessons',            hours:'10am – 8pm',  x:335, y:25,  w:115, h:115},
+  {id:25, fl:2, name:'Hair Salon',        cat:'service', icon:'✂️', desc:'Professional cuts, colour & treatments',        hours:'9am – 8pm',   x:25,  y:155, w:140, h:110},
+  {id:26, fl:2, name:'Pet Paradise',      cat:'leisure', icon:'🐾', desc:'Pets, accessories, food & grooming',            hours:'10am – 8pm',  x:180, y:155, w:140, h:110},
+  {id:27, fl:2, name:'Gourmet Kitchen',   cat:'home',    icon:'🍳', desc:'Cookware, appliances & gourmet ingredients',    hours:'10am – 8pm',  x:335, y:155, w:115, h:110},
+
+  // ── FLOOR 2 ── NE quadrant
+  {id:28, fl:2, name:'Electronics Plus',  cat:'tech',    icon:'🖥️', desc:'Smart home, audio & high-end computing',       hours:'10am – 9pm',  x:545, y:25,  w:140, h:115},
+  {id:29, fl:2, name:'Fitness World',     cat:'sports',  icon:'🏊', desc:'Swimming, cycling & outdoor adventure gear',    hours:'10am – 8pm',  x:700, y:25,  w:140, h:115},
+  {id:30, fl:2, name:'Travel & Luggage',  cat:'leisure', icon:'🧳', desc:'Suitcases, travel accessories & clothing',      hours:'10am – 8pm',  x:855, y:25,  w:115, h:115},
+  {id:31, fl:2, name:'Optical Lounge',    cat:'service', icon:'🕶️', desc:'Designer eyewear & premium sunglasses',         hours:'10am – 7pm',  x:545, y:155, w:125, h:110},
+  {id:32, fl:2, name:'Watch Boutique',    cat:'fashion', icon:'⌚', desc:'Luxury watches & certified pre-owned pieces',   hours:'10am – 8pm',  x:685, y:155, w:130, h:110},
+  {id:33, fl:2, name:'Natural Beauty',    cat:'health',  icon:'🌿', desc:'Organic skincare, cosmetics & wellness',        hours:'10am – 9pm',  x:830, y:155, w:140, h:110},
+
+  // ── FLOOR 2 ── SW quadrant
+  {id:34, fl:2, name:'Rooftop Restaurant',cat:'food',    icon:'🍷', desc:'Fine dining with panoramic city views',         hours:'12pm – 11pm', x:25,  y:378, w:210, h:115},
+  {id:35, fl:2, name:'Sushi & Ramen Bar', cat:'food',    icon:'🍣', desc:'Premium sushi, ramen & Japanese cuisine',       hours:'12pm – 10pm', x:250, y:378, w:195, h:115},
+  {id:36, fl:2, name:'Sweet Factory',     cat:'food',    icon:'🍬', desc:'Handmade chocolates, candy & desserts',         hours:'10am – 9pm',  x:25,  y:508, w:190, h:122},
+  {id:37, fl:2, name:'Smoothie & Juice',  cat:'food',    icon:'🥤', desc:'Fresh-pressed juices, smoothies & acai bowls',  hours:'8am – 9pm',   x:230, y:508, w:215, h:122},
+
+  // ── FLOOR 2 ── SE quadrant
+  {id:38, fl:2, name:'Escape Rooms',      cat:'enter',   icon:'🔐', desc:'5 thrilling escape rooms for all ages',         hours:'11am – 11pm', x:545, y:378, w:185, h:125},
+  {id:39, fl:2, name:'VR Experience',     cat:'enter',   icon:'🥽', desc:'Full-immersion virtual reality adventures',     hours:'11am – 10pm', x:745, y:378, w:145, h:125},
+  {id:40, fl:2, name:'Bowling & Arcade',  cat:'enter',   icon:'🎳', desc:'10-lane bowling alley & classic arcade',        hours:'10am – 12am', x:545, y:518, w:240, h:112},
+  {id:41, fl:2, name:'Kids Edutainment',  cat:'kids',    icon:'🧩', desc:'STEM toys, coding classes & creative play',     hours:'10am – 8pm',  x:800, y:518, w:170, h:112},
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let curFloor  = 1;
+let selStore  = null;
+let selCat    = 'all';
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function catColor(id){return (CATEGORIES.find(c=>c.id===id)||{color:'#8899aa'}).color;}
+function catLabel(id){return (CATEGORIES.find(c=>c.id===id)||{label:id}).label;}
+
+function getDoor(store){
+  // Returns the point where the path transitions from corridor to store entrance
+  const cx = store.x + store.w/2;
+  const cy = store.y + store.h/2;
+  if(store.y + store.h <= CT)  return {x:cx, y:CT,   axis:'h'};
+  if(store.y >= CB)            return {x:cx, y:CB,   axis:'h'};
+  if(store.x + store.w <= CL) return {x:CL, y:cy,   axis:'v'};
+  if(store.x >= CR)            return {x:CR, y:cy,   axis:'v'};
+  return {x:cx, y:CT, axis:'h'}; // fallback
+}
+
+function buildPath(store, startPt){
+  // Returns array of {x,y} points from startPt (default kiosk) through corridors to store
+  const door  = getDoor(store);
+  const start = startPt || KIOSK;
+  const pts   = [start];
+
+  if(door.axis === 'h'){
+    if(Math.abs(door.x - start.x) > 2) pts.push({x:door.x, y:start.y});
+    pts.push({x:door.x, y:door.y});
+  } else {
+    if(Math.abs(door.y - start.y) > 2) pts.push({x:start.x, y:door.y});
+    pts.push({x:door.x, y:door.y});
+  }
+  // Final point: center of store
+  pts.push({x: store.x + store.w/2, y: store.y + store.h/2});
+  return pts;
+}
+
+function pathToElevator(){
+  // Path from kiosk to nearest elevator
+  return [KIOSK, {x:CX, y:ELEV_N.y}, ELEV_N];
+}
+
+function pathLength(pts){
+  let d = 0;
+  for(let i=1;i<pts.length;i++){
+    const dx=pts[i].x-pts[i-1].x, dy=pts[i].y-pts[i-1].y;
+    d += Math.sqrt(dx*dx+dy*dy);
+  }
+  return d;
+}
+
+// ═══════════════════════════════════════════════
+// SVG DRAWING
+// ═══════════════════════════════════════════════
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){
+  const e = document.createElementNS(NS,tag);
+  for(const [k,v] of Object.entries(attrs||{})) e.setAttribute(k,v);
+  if(parent) parent.appendChild(e);
+  return e;
+}
+
+function drawMap(){
+  const svg = document.getElementById('mall-svg');
+  svg.innerHTML = '';
+
+  // ── Defs ──
+  const defs = el('defs',{},svg);
+  // Floor gradient
+  const fg = el('linearGradient',{id:'fg',x1:'0%',y1:'0%',x2:'100%',y2:'100%'},defs);
+  el('stop',{'offset':'0%','stop-color':'#1a2636'},fg);
+  el('stop',{'offset':'100%','stop-color':'#131e2c'},fg);
+  // Corridor gradient
+  const cg = el('linearGradient',{id:'cg',x1:'0%',y1:'0%',x2:'0%',y2:'100%'},defs);
+  el('stop',{'offset':'0%','stop-color':'#273a50'},cg);
+  el('stop',{'offset':'100%','stop-color':'#1f3045'},cg);
+  // Drop shadow
+  const filt = el('filter',{id:'sh',x:'-20%',y:'-20%',width:'140%',height:'140%'},defs);
+  el('feDropShadow',{dx:'0',dy:'2',stdDeviation:'3','flood-color':'rgba(0,0,0,.4)'},filt);
+  // Glow filter
+  const glow = el('filter',{id:'glow',x:'-30%',y:'-30%',width:'160%',height:'160%'},defs);
+  const fgb = el('feGaussianBlur',{in:'SourceGraphic',stdDeviation:'3',result:'blur'},glow);
+  const fco = el('feMerge',{},glow);
+  el('feMergeNode',{in:'blur'},fco);
+  el('feMergeNode',{in:'SourceGraphic'},fco);
+
+  // ── Background ──
+  el('rect',{x:8,y:8,width:984,height:644,rx:14,fill:'url(#fg)',stroke:'#2a3d52','stroke-width':2},svg);
+
+  // Subtle grid pattern on floor
+  for(let x=10;x<990;x+=40){
+    el('line',{x1:x,y1:10,x2:x,y2:650,stroke:'rgba(255,255,255,0.025)','stroke-width':1},svg);
+  }
+  for(let y=10;y<650;y+=40){
+    el('line',{x1:10,y1:y,x2:990,y2:y,stroke:'rgba(255,255,255,0.025)','stroke-width':1},svg);
+  }
+
+  // ── Corridors ──
+  // Horizontal
+  el('rect',{x:8,y:CT,width:984,height:CB-CT,fill:'url(#cg)'},svg);
+  // Vertical
+  el('rect',{x:CL,y:8,width:CR-CL,height:644,fill:'url(#cg)'},svg);
+
+  // Corridor edge lines
+  [
+    [8,CT,992,CT],[8,CB,992,CB],
+    [CL,8,CL,652],[CR,8,CR,652],
+  ].forEach(([x1,y1,x2,y2])=>{
+    el('line',{x1,y1,x2,y2,stroke:'rgba(255,255,255,0.15)','stroke-width':1},svg);
+  });
+
+  // Centerline dashes
+  el('line',{x1:8,y1:CY,x2:992,y2:CY,stroke:'rgba(255,255,255,0.07)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
+  el('line',{x1:CX,y1:8,x2:CX,y2:652,stroke:'rgba(255,255,255,0.07)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
+
+  // ── Entrances ──
+  function entrance(cx,cy,label,rot){
+    const g = el('g',{transform:`translate(${cx},${cy})`},svg);
+    el('polygon',{points:'0,-10 7,4 -7,4',fill:'#00b7af',opacity:'0.9',transform:`rotate(${rot})`},g);
+    const t = el('text',{'text-anchor':'middle','font-size':'9','font-family':'Inter,sans-serif',fill:'#00b7af','font-weight':'600'},g);
+    t.textContent = label;
+    const offsetX = rot===90?-26:rot===270?26:0;
+    t.setAttribute('y', rot===0?20:rot===180?-18:5);
+    t.setAttribute('x', offsetX);
+  }
+  entrance(500,18,'NORTH',0);
+  entrance(500,642,'SOUTH',180);
+  entrance(18,325,'W',270);
+  entrance(982,325,'E',90);
+
+  // ── Elevators in vertical corridor ──
+  function drawElevator(cx,cy){
+    const g = el('g',{transform:`translate(${cx},${cy})`},svg);
+    el('rect',{x:-18,y:-18,width:36,height:36,rx:6,fill:'rgba(255,255,255,0.08)',stroke:'rgba(255,255,255,0.2)','stroke-width':1},g);
+    const t = el('text',{x:0,y:6,'text-anchor':'middle','font-size':'16'},g);
+    t.textContent='🛗';
+    const lbl = el('text',{x:0,y:27,'text-anchor':'middle','font-size':'8','font-family':'Inter,sans-serif',fill:'rgba(255,255,255,0.45)'},g);
+    lbl.textContent='Elevator';
+  }
+  drawElevator(ELEV_N.x, ELEV_N.y);
+  drawElevator(ELEV_S.x, ELEV_S.y);
+
+  // ── Restrooms ──
+  function drawRestroom(cx,cy){
+    const g = el('g',{transform:`translate(${cx},${cy})`},svg);
+    el('rect',{x:-14,y:-14,width:28,height:28,rx:5,fill:'rgba(255,255,255,0.06)',stroke:'rgba(255,255,255,0.15)','stroke-width':1},g);
+    const t = el('text',{x:0,y:5,'text-anchor':'middle','font-size':'12'},g);
+    t.textContent='🚻';
+  }
+  drawRestroom(180, 312);
+  drawRestroom(180, 338);
+  drawRestroom(820, 312);
+  drawRestroom(820, 338);
+
+  // ── Stores ──
+  const flStores = STORES.filter(s=>s.fl===curFloor);
+  flStores.forEach(s=>drawStore(svg,s));
+
+  // ── Kiosk marker ──
+  drawKiosk(svg);
+}
+
+function drawStore(svg, store){
+  const color = catColor(store.cat);
+  const isSel = selStore && selStore.id === store.id;
+  const g = el('g',{class:`sg sg-${store.id}`},svg);
+  g.style.cursor='pointer';
+
+  // Glow for selected
+  if(isSel){
+    el('rect',{x:store.x-3,y:store.y-3,width:store.w+6,height:store.h+6,rx:9,
+      fill:'none',stroke:color,'stroke-width':3,opacity:0.45,filter:'url(#glow)'},g);
+  }
+
+  // Store body
+  el('rect',{x:store.x,y:store.y,width:store.w,height:store.h,rx:7,
+    fill: isSel ? color+'55' : color+'18',
+    stroke: color,
+    'stroke-width': isSel ? 2.5 : 1.5,
+    opacity: isSel ? 1 : 0.88
+  },g);
+
+  // Icon
+  const ico = el('text',{
+    x: store.x + store.w/2,
+    y: store.y + store.h/2 - (store.h>100?10:6),
+    'text-anchor':'middle','dominant-baseline':'middle',
+    'font-size': store.w>150?'26':store.w>110?'22':'18'
+  },g);
+  ico.textContent = store.icon;
+
+  // Name (wrap if too long)
+  const words = store.name.split(' ');
+  const lineH = 11;
+  const fs = store.w > 160 ? 11 : store.w > 120 ? 10 : 9;
+  if(words.length <= 2 || store.w >= 150){
+    const nm = el('text',{
+      x: store.x + store.w/2,
+      y: store.y + store.h - 14,
+      'text-anchor':'middle','font-size':fs,'font-weight':'600',
+      fill: isSel ? '#fff' : color,
+      'font-family':'Inter,sans-serif'
+    },g);
+    nm.textContent = store.name;
+  } else {
+    const mid = Math.ceil(words.length/2);
+    const ln1 = words.slice(0,mid).join(' ');
+    const ln2 = words.slice(mid).join(' ');
+    const baseY = store.y + store.h - 20;
+    [ln1,ln2].forEach((line,i)=>{
+      const nm = el('text',{
+        x: store.x + store.w/2,
+        y: baseY + i*lineH,
+        'text-anchor':'middle','font-size':fs,'font-weight':'600',
+        fill: isSel ? '#fff' : color,
+        'font-family':'Inter,sans-serif'
+      },g);
+      nm.textContent = line;
+    });
+  }
+
+  // Events
+  g.addEventListener('click', ()=>selectStore(store));
+  g.addEventListener('touchstart', e=>{e.preventDefault();selectStore(store);},{passive:false});
+  g.addEventListener('mouseenter',()=>{
+    if(!isSel){
+      g.querySelector('rect').setAttribute('fill',color+'33');
+    }
+  });
+  g.addEventListener('mouseleave',()=>{
+    if(!isSel){
+      g.querySelector('rect').setAttribute('fill',color+'18');
+    }
+  });
+}
+
+function drawKiosk(svg){
+  const g = el('g',{transform:`translate(${KIOSK.x},${KIOSK.y})`},svg);
+  // Pulse rings
+  for(let i=3;i>=1;i--){
+    el('circle',{cx:0,cy:0,r:i*10,
+      fill:`rgba(0,183,175,${0.04*i})`,
+      stroke:`rgba(0,183,175,${0.12*i})`,
+      'stroke-width':1
+    },g);
+  }
+  // Main dot
+  el('circle',{cx:0,cy:0,r:14,fill:'#00b7af',stroke:'#fff','stroke-width':2.5},g);
+  const ico = el('text',{x:0,y:5,'text-anchor':'middle','font-size':'13'},g);
+  ico.textContent='📍';
+  // Animated ring
+  const ar = el('circle',{cx:0,cy:0,r:14,fill:'none',stroke:'#00b7af','stroke-width':2},g);
+  ar.style.animation='kioskPulse 2.2s ease-out infinite';
+  // Label
+  const lbl = el('text',{x:0,y:32,'text-anchor':'middle','font-size':'10','font-weight':'700',
+    fill:'#00b7af','font-family':'Inter,sans-serif','letter-spacing':'0.5'},g);
+  lbl.textContent='YOU ARE HERE';
+}
+
+function drawPath(pts){
+  const svg = document.getElementById('mall-svg');
+  svg.querySelectorAll('.path-layer,.dest-marker').forEach(e=>e.remove());
+  if(!pts||pts.length<2) return;
+
+  const pg = el('g',{class:'path-layer'},svg);
+  const pointStr = pts.map(p=>`${p.x},${p.y}`).join(' ');
+  const len = pathLength(pts);
+
+  // Glow line
+  const gl = el('polyline',{points:pointStr,fill:'none',stroke:'rgba(243,156,18,0.2)',
+    'stroke-width':12,'stroke-linecap':'round','stroke-linejoin':'round'},pg);
+
+  // Main dashed line
+  const pl = el('polyline',{points:pointStr,fill:'none',stroke:'#f39c12',
+    'stroke-width':4,'stroke-dasharray':'10,6',
+    'stroke-linecap':'round','stroke-linejoin':'round'},pg);
+  pl.style.strokeDasharray = len;
+  pl.style.strokeDashoffset = len;
+  pl.style.animation = `pathDraw 1s ease forwards`;
+
+  // Destination marker
+  const dest = pts[pts.length-1];
+  const dg = el('g',{class:'dest-marker'},svg);
+  const dp = el('circle',{cx:dest.x,cy:dest.y,r:8,
+    fill:'rgba(231,76,60,0.35)',stroke:'none'},dg);
+  dp.style.animation='destPulse 1.6s ease-out infinite';
+  el('circle',{cx:dest.x,cy:dest.y,r:7,fill:'#e74c3c',stroke:'#fff','stroke-width':2},dg);
+}
+
+// ═══════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════
+function renderCats(){
+  const c = document.getElementById('cats');
+  c.innerHTML='';
+  CATEGORIES.forEach(cat=>{
+    const b = document.createElement('button');
+    b.className='cbt'+(selCat===cat.id?' on':'');
+    if(selCat===cat.id){
+      b.style.cssText=`background:${cat.color}22;border-color:${cat.color};color:${cat.color};`;
+    }
+    b.innerHTML=`${cat.icon} ${cat.label}`;
+    b.onclick=()=>{selCat=cat.id;renderCats();renderList();};
+    c.appendChild(b);
+  });
+}
+
+function renderList(q=''){
+  const c = document.getElementById('slist');
+  c.innerHTML='';
+  let arr = [...STORES];
+  if(selCat!=='all') arr=arr.filter(s=>s.cat===selCat);
+  if(q) arr=arr.filter(s=>s.name.toLowerCase().includes(q)||s.cat.toLowerCase().includes(q)||catLabel(s.cat).toLowerCase().includes(q));
+
+  const f1=arr.filter(s=>s.fl===1), f2=arr.filter(s=>s.fl===2);
+  const addGroup=(grp,lbl)=>{
+    if(!grp.length) return;
+    const h=document.createElement('div'); h.className='slist-head'; h.textContent=lbl;
+    c.appendChild(h);
+    grp.forEach(store=>{
+      const col=catColor(store.cat);
+      const isSel=selStore&&selStore.id===store.id;
+      const d=document.createElement('div');
+      d.className='sitem'+(isSel?' sel':'');
+      d.innerHTML=`
+        <div class="sitem-icon" style="background:${col}22"><span>${store.icon}</span></div>
+        <div class="sitem-info">
+          <div class="sitem-name">${store.name}</div>
+          <div class="sitem-sub">${catLabel(store.cat)} · ${store.hours}</div>
+        </div>
+        <div class="sitem-fl">F${store.fl}</div>`;
+      d.onclick=()=>selectStore(store);
+      c.appendChild(d);
+    });
+  };
+  addGroup(f1,'Floor 1');
+  addGroup(f2,'Floor 2');
+
+  if(!arr.length){
+    c.innerHTML=`<div class="no-res"><div class="no-res-icon">🔍</div><div style="font-weight:600">No stores found</div><div style="font-size:11px;margin-top:4px;color:var(--muted)">Try a different search or category</div></div>`;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SELECTION & WAYFINDING
+// ═══════════════════════════════════════════════
+function selectStore(store){
+  selStore = store;
+
+  if(store.fl !== 1){
+    // Store is on a different floor — switch to that floor and show path from elevator
+    switchFloor(store.fl);
+    // On the destination floor, route starts from elevator exit
+    const path = buildPath(store, {x:CX, y:CY});
+    drawPath(path);
+    showElevNotice(store.fl);
+    showInfo(store, null);
+  } else {
+    switchFloor(1);
+    const path = buildPath(store);
+    drawPath(path);
+    showInfo(store, path);
+    hideElevNotice();
+  }
+  renderList();
+
+  // Scroll selected item into view
+  setTimeout(()=>{
+    const sel=document.querySelector('.sitem.sel');
+    if(sel) sel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },150);
+}
+
+function showInfo(store, path){
+  const col = catColor(store.cat);
+  const dist = path ? Math.round(pathLength(path)*0.1) : null;
+  const time = dist ? Math.max(1, Math.ceil(dist/80)) : null;
+  const c = document.getElementById('info-content');
+  c.innerHTML=`
+    <div class="info-ico" style="background:${col}22;border:2px solid ${col}44">${store.icon}</div>
+    <div class="info-details">
+      <div class="info-name">${store.name}</div>
+      <div class="info-cat">${catLabel(store.cat)} · Floor ${store.fl}</div>
+      <div class="info-desc">${store.desc}</div>
+      <div class="info-stats">
+        <div class="istat">⏰ <span>${store.hours}</span></div>
+        ${dist!==null?`<div class="istat">📍 <span>~${dist}m</span></div>`:''}
+        ${time!==null?`<div class="istat">🚶 <span>~${time} min walk</span></div>`:''}
+        ${store.fl!==1?`<div class="istat">🛗 <span>Via elevator</span></div>`:''}
+      </div>
+    </div>
+    <button class="btn-dir" onclick="flashPath()">🗺️ Directions</button>
+    <button class="btn-close" onclick="clearSelection()">✕</button>
+  `;
+  document.getElementById('info-panel').classList.add('show');
+}
+
+function flashPath(){
+  const pl = document.querySelector('.path-layer polyline:last-child');
+  if(!pl) return;
+  const len = parseFloat(pl.style.strokeDasharray||0);
+  pl.style.animation='none';
+  pl.style.strokeDashoffset=len;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    pl.style.animation='pathDraw 0.8s ease forwards';
+  }));
+}
+
+function clearSelection(){
+  selStore=null;
+  document.getElementById('info-panel').classList.remove('show');
+  hideElevNotice();
+  const svg=document.getElementById('mall-svg');
+  svg.querySelectorAll('.path-layer,.dest-marker').forEach(e=>e.remove());
+  drawMap();
+  renderList();
+}
+
+function showElevNotice(fl){
+  document.getElementById('elev-fl').textContent=fl;
+  document.getElementById('elev-notice').classList.add('show');
+}
+function hideElevNotice(){
+  document.getElementById('elev-notice').classList.remove('show');
+}
+function closeNotice(){hideElevNotice();}
+
+// ═══════════════════════════════════════════════
+// FLOOR SWITCHER
+// ═══════════════════════════════════════════════
+function switchFloor(fl){
+  curFloor=fl;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.toggle('active',parseInt(b.dataset.fl)===fl));
+  drawMap();
+  if(selStore){
+    if(selStore.fl===fl && fl===1){
+      drawPath(buildPath(selStore));
+    } else if(selStore.fl===fl && fl!==1){
+      drawPath(buildPath(selStore,{x:CX,y:CY}));
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════
+function setupSearch(){
+  const inp=document.getElementById('srch');
+  const dd=document.getElementById('srch-dd');
+
+  inp.addEventListener('input',()=>{
+    const q=inp.value.trim().toLowerCase();
+    renderList(q);
+    if(!q){dd.classList.remove('show');return;}
+    const res=STORES.filter(s=>s.name.toLowerCase().includes(q)||catLabel(s.cat).toLowerCase().includes(q)).slice(0,6);
+    if(!res.length){dd.innerHTML=`<div class="sd-item" style="color:var(--muted)">No results found</div>`;dd.classList.add('show');return;}
+    dd.innerHTML=res.map(s=>`
+      <div class="sd-item" data-id="${s.id}">
+        <span style="font-size:20px">${s.icon}</span>
+        <div><div class="sd-name">${s.name}</div><div class="sd-meta">${catLabel(s.cat)} · Floor ${s.fl}</div></div>
+      </div>`).join('');
+    dd.classList.add('show');
+    dd.querySelectorAll('.sd-item[data-id]').forEach(it=>{
+      it.onclick=()=>{
+        const store=STORES.find(s=>s.id===parseInt(it.dataset.id));
+        if(store){inp.value='';dd.classList.remove('show');selectStore(store);}
+      };
+    });
+  });
+
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape'){inp.value='';dd.classList.remove('show');renderList();}});
+  document.addEventListener('click',e=>{if(!inp.contains(e.target)&&!dd.contains(e.target))dd.classList.remove('show');});
+}
+
+// ═══════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════
+function tick(){
+  const n=new Date(),h=n.getHours(),m=String(n.getMinutes()).padStart(2,'0');
+  const h12=h%12||12, ap=h>=12?'PM':'AM';
+  document.getElementById('clock').textContent=`${h12}:${m} ${ap}`;
+}
+
+// ═══════════════════════════════════════════════
+// IDLE AUTO-HIGHLIGHT (kiosk showcase)
+// ═══════════════════════════════════════════════
+let idleTimer, idleIdx=0;
+function resetIdle(){
+  clearTimeout(idleTimer);
+  idleTimer=setTimeout(startIdle,45000); // 45s idle
+}
+function startIdle(){
+  const floor1=STORES.filter(s=>s.fl===1);
+  const s=floor1[idleIdx % floor1.length];
+  idleIdx++;
+  if(curFloor!==1) switchFloor(1);
+  selectStore(s);
+  idleTimer=setTimeout(()=>{clearSelection();setTimeout(startIdle,3000);},8000);
+}
+['click','touchstart','keydown','mousemove'].forEach(ev=>document.addEventListener(ev,resetIdle,{passive:true}));
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+renderCats();
+renderList();
+drawMap();
+setupSearch();
+tick();
+setInterval(tick,30000);
+resetIdle();
+</script>
+</body>
+</html>
