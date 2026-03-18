@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Westfield Grand – Mall Directory</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap?v=x4j8b1" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap?v=k9r3m2" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     :root{
@@ -32,44 +32,6 @@
       display:flex;
       flex-direction:column;
       user-select:none;
-    }
-
-    /* ── PROMO BANNER ── */
-    .promo-banner {
-      background: var(--dark3);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      z-index: 30;
-      min-height: 54px;
-      transition: background 0.5s ease;
-    }
-    .promo-content {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: opacity 0.3s ease;
-      opacity: 1;
-    }
-    .promo-store {
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 4px;
-      color: var(--white);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-size: 11px;
-    }
-    .promo-deal {
-      color: var(--white);
-      font-size: 13px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     /* ── HEADER ── */
@@ -304,11 +266,6 @@
 </head>
 <body>
 
-<!-- PROMO BANNER -->
-<div class="promo-banner" id="promo-banner">
-  <div class="promo-content" id="promo-content"></div>
-</div>
-
 <!-- HEADER -->
 <div class="hdr">
   <div class="logo-wrap">
@@ -344,7 +301,7 @@
 
   <!-- MAP -->
   <div class="map-wrap" id="map-wrap">
-    <svg id="mall-svg" viewBox="0 0 1000 660" preserveAspectRatio="xMidYMid meet"></svg>
+    <svg id="mall-svg" viewBox="0 -70 1000 730" preserveAspectRatio="xMidYMid meet"></svg>
 
     <div class="legend">
       <div class="leg-title">Legend</div>
@@ -553,6 +510,13 @@ function drawMap(){
   const fco = el('feMerge',{},glow);
   el('feMergeNode',{in:'blur'},fco);
   el('feMergeNode',{in:'SourceGraphic'},fco);
+
+  // ── Parking Garage Entrance (North) ──
+  const pgGroup = el('g', {transform: 'translate(500, 8)'}, svg);
+  el('rect', {x: -120, y: -65, width: 240, height: 70, rx: 8, fill: '#1a2636', stroke: '#2a3d52', 'stroke-width': 3}, pgGroup);
+  el('rect', {x: -80, y: -35, width: 160, height: 35, rx: 5, fill: '#0a1018'}, pgGroup);
+  const pgText = el('text', {x: 0, y: -44, 'text-anchor': 'middle', 'font-size': '13', 'font-family': 'Inter,sans-serif', fill: '#00b7af', 'font-weight': '700', 'letter-spacing': '1.8'}, pgGroup);
+  pgText.textContent = 'PARKING GARAGE';
 
   // ── Background ──
   el('rect',{x:8,y:8,width:984,height:644,rx:14,fill:'url(#fg)',stroke:'#2a3d52','stroke-width':2},svg);
@@ -970,37 +934,6 @@ function startIdle(){
 ['click','touchstart','keydown','mousemove'].forEach(ev=>document.addEventListener(ev,resetIdle,{passive:true}));
 
 // ═══════════════════════════════════════════════
-// PROMOTIONS
-// ═══════════════════════════════════════════════
-const PROMOS = [
-  { storeId: 1, deal: "Buy 1 Get 1 50% Off All Summer Styles!" },
-  { storeId: 13, deal: "Free Pastry with Any Large Artisan Coffee Before 11 AM" }
-];
-
-let curPromoIdx = 0;
-function rotatePromo() {
-  const promo = PROMOS[curPromoIdx];
-  const store = STORES.find(s => s.id === promo.storeId);
-  if (!store) return;
-
-  const col = catColor(store.cat);
-  const pc = document.getElementById('promo-content');
-  const pb = document.getElementById('promo-banner');
-
-  pc.style.opacity = '0';
-
-  setTimeout(() => {
-    pb.style.background = col;
-    pc.innerHTML = `
-      <div class="promo-store" style="background: rgba(0,0,0,0.2)">${store.name}</div>
-      <div class="promo-deal"><span style="font-size:15px; margin-right:4px">${store.icon}</span> ${promo.deal}</div>
-    `;
-    pc.style.opacity = '1';
-    curPromoIdx = (curPromoIdx + 1) % PROMOS.length;
-  }, 300);
-}
-
-// ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
 renderCats();
@@ -1010,8 +943,6 @@ setupSearch();
 tick();
 setInterval(tick,30000);
 resetIdle();
-rotatePromo();
-setInterval(rotatePromo, 5000);
 </script>
   <script>
     if ('serviceWorker' in navigator) {
