@@ -38,13 +38,14 @@
     .promo-banner {
       background: var(--dark3);
       border-bottom: 1px solid var(--border);
-      padding: 8px 20px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       z-index: 30;
-      min-height: 40px;
+      min-height: 54px;
+      transition: background 0.5s ease;
     }
     .promo-content {
       display: flex;
@@ -984,12 +985,14 @@ function rotatePromo() {
 
   const col = catColor(store.cat);
   const pc = document.getElementById('promo-content');
+  const pb = document.getElementById('promo-banner');
 
   pc.style.opacity = '0';
 
   setTimeout(() => {
+    pb.style.background = col;
     pc.innerHTML = `
-      <div class="promo-store" style="background: ${col}">${store.name}</div>
+      <div class="promo-store" style="background: rgba(0,0,0,0.2)">${store.name}</div>
       <div class="promo-deal"><span style="font-size:15px; margin-right:4px">${store.icon}</span> ${promo.deal}</div>
     `;
     pc.style.opacity = '1';
