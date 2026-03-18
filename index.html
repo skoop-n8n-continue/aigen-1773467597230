@@ -301,7 +301,7 @@
 
   <!-- MAP -->
   <div class="map-wrap" id="map-wrap">
-    <svg id="mall-svg" viewBox="0 -70 1000 730" preserveAspectRatio="xMidYMid meet"></svg>
+    <svg id="mall-svg" viewBox="0 0 1000 660" preserveAspectRatio="xMidYMid meet"></svg>
 
     <div class="legend">
       <div class="leg-title">Legend</div>
@@ -510,13 +510,6 @@ function drawMap(){
   const fco = el('feMerge',{},glow);
   el('feMergeNode',{in:'blur'},fco);
   el('feMergeNode',{in:'SourceGraphic'},fco);
-
-  // ── Parking Garage Entrance (North) ──
-  const pgGroup = el('g', {transform: 'translate(500, 8)'}, svg);
-  el('rect', {x: -120, y: -65, width: 240, height: 70, rx: 8, fill: '#1a2636', stroke: '#2a3d52', 'stroke-width': 3}, pgGroup);
-  el('rect', {x: -80, y: -35, width: 160, height: 35, rx: 5, fill: '#0a1018'}, pgGroup);
-  const pgText = el('text', {x: 0, y: -44, 'text-anchor': 'middle', 'font-size': '13', 'font-family': 'Inter,sans-serif', fill: '#00b7af', 'font-weight': '700', 'letter-spacing': '1.8'}, pgGroup);
-  pgText.textContent = 'PARKING GARAGE';
 
   // ── Background ──
   el('rect',{x:8,y:8,width:984,height:644,rx:14,fill:'url(#fg)',stroke:'#2a3d52','stroke-width':2},svg);
