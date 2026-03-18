@@ -8,19 +8,19 @@
   <meta http-equiv="Expires" content="0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Westfield Grand – Mall Directory</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap?v=x2r4n5" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap?v=x4j8b1" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
     :root{
       --primary:#00b7af;
       --primary-d:#008f89;
-      --dark:#ffffff;
-      --dark2:#f8fafc;
-      --dark3:#f1f5f9;
-      --dark4:#e2e8f0;
-      --text:#0f172a;
-      --muted:#64748b;
-      --border:rgba(0,0,0,0.08);
+      --dark:#0d1520;
+      --dark2:#141d2a;
+      --dark3:#1c2a3a;
+      --dark4:#243244;
+      --text:#dce8f2;
+      --muted:#6a8099;
+      --border:rgba(255,255,255,0.08);
       --white:#fff;
     }
     body{
@@ -32,6 +32,44 @@
       display:flex;
       flex-direction:column;
       user-select:none;
+    }
+
+    /* ── PROMO BANNER ── */
+    .promo-banner {
+      background: var(--dark3);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 30;
+      min-height: 54px;
+      transition: background 0.5s ease;
+    }
+    .promo-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: opacity 0.3s ease;
+      opacity: 1;
+    }
+    .promo-store {
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+    }
+    .promo-deal {
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* ── HEADER ── */
@@ -55,14 +93,14 @@
       box-shadow:0 0 16px rgba(0,183,175,0.3);
     }
     .logo-text{line-height:1.2;}
-    .logo-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-0.5px;}
+    .logo-name{font-size:18px;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
     .logo-sub{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
     .search-wrap{
       flex:1;max-width:420px;position:relative;
     }
     .search-wrap input{
       width:100%;
-      background:var(--dark);
+      background:var(--dark3);
       border:1px solid var(--border);
       border-radius:10px;
       padding:10px 14px 10px 40px;
@@ -79,13 +117,13 @@
     }
     .search-dropdown{
       position:absolute;top:calc(100% + 6px);left:0;right:0;
-      background:var(--dark);
+      background:var(--dark2);
       border:1px solid var(--border);
       border-radius:10px;
       overflow:hidden;
       z-index:100;
       display:none;
-      box-shadow:0 8px 32px rgba(0,0,0,0.1);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
     }
     .search-dropdown.show{display:block;}
     .sd-item{
@@ -94,23 +132,23 @@
       transition:background .15s;
     }
     .sd-item:hover{background:var(--dark3);}
-    .sd-name{font-size:13px;font-weight:600;color:var(--text);}
+    .sd-name{font-size:13px;font-weight:600;color:var(--white);}
     .sd-meta{font-size:11px;color:var(--muted);}
     .floor-tabs{display:flex;gap:4px;flex-shrink:0;}
     .ftab{
       padding:8px 18px;
       border-radius:8px;border:1px solid var(--border);
-      background:var(--dark3);color:var(--muted);
+      background:transparent;color:var(--muted);
       font-family:inherit;font-size:13px;font-weight:600;
       cursor:pointer;transition:all .2s;
     }
     .ftab.active{
       background:var(--primary);border-color:var(--primary);
       color:var(--white);
-      box-shadow:0 0 12px rgba(0,183,175,0.25);
+      box-shadow:0 0 12px rgba(0,183,175,0.35);
     }
     .hdr-clock{
-      font-size:18px;font-weight:700;color:var(--text);
+      font-size:18px;font-weight:700;color:var(--white);
       min-width:85px;text-align:right;flex-shrink:0;
     }
 
@@ -166,11 +204,11 @@
       font-size:17px;flex-shrink:0;
     }
     .sitem-info{flex:1;min-width:0;}
-    .sitem-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .sitem-name{font-size:12px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     .sitem-sub{font-size:10px;color:var(--muted);}
     .sitem-fl{
       font-size:10px;padding:2px 7px;
-      border-radius:4px;background:var(--dark3);
+      border-radius:4px;background:var(--dark4);
       color:var(--muted);flex-shrink:0;
     }
     .no-res{padding:30px 16px;text-align:center;color:var(--muted);}
@@ -179,20 +217,20 @@
     /* ── MAP ── */
     .map-wrap{
       flex:1;position:relative;overflow:hidden;
-      background:radial-gradient(ellipse at 50% 40%,#f8fafc 0%,#f1f5f9 100%);
+      background:radial-gradient(ellipse at 50% 40%,#0f1c2a 0%,#080f18 100%);
     }
     #mall-svg{width:100%;height:100%;display:block;}
 
     /* ── INFO PANEL ── */
     .info-panel{
       position:absolute;bottom:0;left:0;right:0;
-      background:var(--white);
+      background:var(--dark2);
       border-top:2px solid var(--primary);
       padding:14px 18px;
       transform:translateY(110%);
       transition:transform .35s cubic-bezier(.4,0,.2,1);
       z-index:10;
-      box-shadow:0 -4px 30px rgba(0,0,0,0.12);
+      box-shadow:0 -4px 30px rgba(0,0,0,0.4);
     }
     .info-panel.show{transform:translateY(0);}
     .info-row{display:flex;align-items:center;gap:14px;}
@@ -202,7 +240,7 @@
       font-size:28px;flex-shrink:0;
     }
     .info-details{flex:1;}
-    .info-name{font-size:17px;font-weight:800;color:var(--text);}
+    .info-name{font-size:17px;font-weight:800;color:var(--white);}
     .info-cat{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--primary);margin-top:1px;}
     .info-desc{font-size:12px;color:var(--muted);margin-top:3px;}
     .info-stats{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap;}
@@ -228,12 +266,11 @@
     /* ── LEGEND ── */
     .legend{
       position:absolute;top:12px;right:12px;
-      background:rgba(255,255,255,0.92);
+      background:rgba(13,21,32,0.88);
       border:1px solid var(--border);
       border-radius:10px;padding:10px 14px;
       backdrop-filter:blur(6px);
       pointer-events:none;
-      box-shadow:0 4px 12px rgba(0,0,0,0.06);
     }
     .leg-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:7px;}
     .leg-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--text);margin-bottom:4px;}
@@ -242,14 +279,13 @@
     /* ── ELEVATOR NOTICE ── */
     .elev-notice{
       position:absolute;bottom:0;left:0;right:0;
-      background:linear-gradient(135deg,#f0fdf4,#dcfce7);
-      border-top:2px solid #22c55e;
+      background:linear-gradient(135deg,#1a2f20,#1a3020);
+      border-top:2px solid #27ae60;
       padding:10px 18px;
       transform:translateY(110%);
       transition:transform .35s cubic-bezier(.4,0,.2,1);
       z-index:11;
       display:flex;align-items:center;gap:12px;
-      box-shadow:0 -4px 20px rgba(0,0,0,0.08);
     }
     .elev-notice.show{transform:translateY(0);}
 
@@ -267,6 +303,11 @@
   </style>
 </head>
 <body>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner" id="promo-banner">
+  <div class="promo-content" id="promo-content"></div>
+</div>
 
 <!-- HEADER -->
 <div class="hdr">
@@ -310,7 +351,7 @@
       <div class="leg-item"><div class="leg-dot" style="background:#00b7af"></div>You Are Here</div>
       <div class="leg-item"><div class="leg-dot" style="background:#e74c3c"></div>Destination</div>
       <div class="leg-item"><div class="leg-dot" style="background:#f39c12"></div>Route</div>
-      <div class="leg-item"><div class="leg-dot" style="background:rgba(0,0,0,0.08)"></div>Corridor</div>
+      <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,0.15)"></div>Corridor</div>
     </div>
 
     <!-- INFO PANEL -->
@@ -322,8 +363,8 @@
     <div class="elev-notice" id="elev-notice">
       <span style="font-size:28px">🛗</span>
       <div>
-        <div style="font-size:14px;font-weight:700;color:var(--text)">Take the Elevator to Floor <span id="elev-fl">2</span></div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px">Elevators located at center corridor — follow the route to the elevator</div>
+        <div style="font-size:14px;font-weight:700;color:#fff">Take the Elevator to Floor <span id="elev-fl">2</span></div>
+        <div style="font-size:12px;color:#aaa;margin-top:2px">Elevators located at center corridor — follow the route to the elevator</div>
       </div>
       <button class="btn-close" onclick="closeNotice()" style="margin-left:auto">✕</button>
     </div>
@@ -349,7 +390,7 @@ const ELEV_N = {x:500, y:180};
 const ELEV_S = {x:500, y:490};
 
 const CATEGORIES = [
-  {id:'all',     label:'All',            icon:'🏪', color:'#64748b'},
+  {id:'all',     label:'All',            icon:'🏪', color:'#8899aa'},
   {id:'fashion', label:'Fashion',        icon:'👗', color:'#e91e8c'},
   {id:'food',    label:'Food & Dining',  icon:'🍔', color:'#f39c12'},
   {id:'tech',    label:'Tech',           icon:'💻', color:'#3498db'},
@@ -358,7 +399,7 @@ const CATEGORIES = [
   {id:'health',  label:'Health',         icon:'💊', color:'#1abc9c'},
   {id:'home',    label:'Home',           icon:'🏠', color:'#e67e22'},
   {id:'service', label:'Services',       icon:'✂️',  color:'#9b59b6'},
-  {id:'kids',    label:'Kids',           icon:'🧸', color:'#d4ac0d'},
+  {id:'kids',    label:'Kids',           icon:'🧸', color:'#f1c40f'},
   {id:'leisure', label:'Leisure',        icon:'🎭', color:'#8e44ad'},
 ];
 
@@ -497,15 +538,15 @@ function drawMap(){
   const defs = el('defs',{},svg);
   // Floor gradient
   const fg = el('linearGradient',{id:'fg',x1:'0%',y1:'0%',x2:'100%',y2:'100%'},defs);
-  el('stop',{'offset':'0%','stop-color':'#f8fafc'},fg);
-  el('stop',{'offset':'100%','stop-color':'#f1f5f9'},fg);
+  el('stop',{'offset':'0%','stop-color':'#1a2636'},fg);
+  el('stop',{'offset':'100%','stop-color':'#131e2c'},fg);
   // Corridor gradient
   const cg = el('linearGradient',{id:'cg',x1:'0%',y1:'0%',x2:'0%',y2:'100%'},defs);
-  el('stop',{'offset':'0%','stop-color':'#f1f5f9'},cg);
-  el('stop',{'offset':'100%','stop-color':'#e2e8f0'},cg);
+  el('stop',{'offset':'0%','stop-color':'#273a50'},cg);
+  el('stop',{'offset':'100%','stop-color':'#1f3045'},cg);
   // Drop shadow
   const filt = el('filter',{id:'sh',x:'-20%',y:'-20%',width:'140%',height:'140%'},defs);
-  el('feDropShadow',{dx:'0',dy:'2',stdDeviation:'3','flood-color':'rgba(0,0,0,.1)'},filt);
+  el('feDropShadow',{dx:'0',dy:'2',stdDeviation:'3','flood-color':'rgba(0,0,0,.4)'},filt);
   // Glow filter
   const glow = el('filter',{id:'glow',x:'-30%',y:'-30%',width:'160%',height:'160%'},defs);
   const fgb = el('feGaussianBlur',{in:'SourceGraphic',stdDeviation:'3',result:'blur'},glow);
@@ -514,14 +555,14 @@ function drawMap(){
   el('feMergeNode',{in:'SourceGraphic'},fco);
 
   // ── Background ──
-  el('rect',{x:8,y:8,width:984,height:644,rx:14,fill:'url(#fg)',stroke:'rgba(0,0,0,0.08)','stroke-width':1.5},svg);
+  el('rect',{x:8,y:8,width:984,height:644,rx:14,fill:'url(#fg)',stroke:'#2a3d52','stroke-width':2},svg);
 
   // Subtle grid pattern on floor
   for(let x=10;x<990;x+=40){
-    el('line',{x1:x,y1:10,x2:x,y2:650,stroke:'rgba(0,0,0,0.03)','stroke-width':1},svg);
+    el('line',{x1:x,y1:10,x2:x,y2:650,stroke:'rgba(255,255,255,0.025)','stroke-width':1},svg);
   }
   for(let y=10;y<650;y+=40){
-    el('line',{x1:10,y1:y,x2:990,y2:y,stroke:'rgba(0,0,0,0.03)','stroke-width':1},svg);
+    el('line',{x1:10,y1:y,x2:990,y2:y,stroke:'rgba(255,255,255,0.025)','stroke-width':1},svg);
   }
 
   // ── Corridors ──
@@ -535,18 +576,18 @@ function drawMap(){
     [8,CT,992,CT],[8,CB,992,CB],
     [CL,8,CL,652],[CR,8,CR,652],
   ].forEach(([x1,y1,x2,y2])=>{
-    el('line',{x1,y1,x2,y2,stroke:'rgba(0,0,0,0.06)','stroke-width':1},svg);
+    el('line',{x1,y1,x2,y2,stroke:'rgba(255,255,255,0.15)','stroke-width':1},svg);
   });
 
   // Centerline dashes
-  el('line',{x1:8,y1:CY,x2:992,y2:CY,stroke:'rgba(0,0,0,0.04)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
-  el('line',{x1:CX,y1:8,x2:CX,y2:652,stroke:'rgba(0,0,0,0.04)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
+  el('line',{x1:8,y1:CY,x2:992,y2:CY,stroke:'rgba(255,255,255,0.07)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
+  el('line',{x1:CX,y1:8,x2:CX,y2:652,stroke:'rgba(255,255,255,0.07)','stroke-width':1,'stroke-dasharray':'8,14'},svg);
 
   // ── Entrances ──
   function entrance(cx,cy,label,rot){
     const g = el('g',{transform:`translate(${cx},${cy})`},svg);
     el('polygon',{points:'0,-10 7,4 -7,4',fill:'#00b7af',opacity:'0.9',transform:`rotate(${rot})`},g);
-    const t = el('text',{'text-anchor':'middle','font-size':'9','font-family':'Inter,sans-serif',fill:'#00b7af','font-weight':'700'},g);
+    const t = el('text',{'text-anchor':'middle','font-size':'9','font-family':'Inter,sans-serif',fill:'#00b7af','font-weight':'600'},g);
     t.textContent = label;
     const offsetX = rot===90?-26:rot===270?26:0;
     t.setAttribute('y', rot===0?20:rot===180?-18:5);
@@ -560,10 +601,10 @@ function drawMap(){
   // ── Elevators in vertical corridor ──
   function drawElevator(cx,cy){
     const g = el('g',{transform:`translate(${cx},${cy})`},svg);
-    el('rect',{x:-18,y:-18,width:36,height:36,rx:6,fill:'rgba(0,0,0,0.03)',stroke:'rgba(0,0,0,0.1)','stroke-width':1},g);
+    el('rect',{x:-18,y:-18,width:36,height:36,rx:6,fill:'rgba(255,255,255,0.08)',stroke:'rgba(255,255,255,0.2)','stroke-width':1},g);
     const t = el('text',{x:0,y:6,'text-anchor':'middle','font-size':'16'},g);
     t.textContent='🛗';
-    const lbl = el('text',{x:0,y:27,'text-anchor':'middle','font-size':'8','font-family':'Inter,sans-serif',fill:'rgba(0,0,0,0.4)'},g);
+    const lbl = el('text',{x:0,y:27,'text-anchor':'middle','font-size':'8','font-family':'Inter,sans-serif',fill:'rgba(255,255,255,0.45)'},g);
     lbl.textContent='Elevator';
   }
   drawElevator(ELEV_N.x, ELEV_N.y);
@@ -572,7 +613,7 @@ function drawMap(){
   // ── Restrooms ──
   function drawRestroom(cx,cy){
     const g = el('g',{transform:`translate(${cx},${cy})`},svg);
-    el('rect',{x:-14,y:-14,width:28,height:28,rx:5,fill:'rgba(0,0,0,0.03)',stroke:'rgba(0,0,0,0.08)','stroke-width':1},g);
+    el('rect',{x:-14,y:-14,width:28,height:28,rx:5,fill:'rgba(255,255,255,0.06)',stroke:'rgba(255,255,255,0.15)','stroke-width':1},g);
     const t = el('text',{x:0,y:5,'text-anchor':'middle','font-size':'12'},g);
     t.textContent='🚻';
   }
@@ -603,7 +644,7 @@ function drawStore(svg, store){
 
   // Store body
   el('rect',{x:store.x,y:store.y,width:store.w,height:store.h,rx:7,
-    fill: isSel ? color+'55' : color+'28',
+    fill: isSel ? color+'55' : color+'18',
     stroke: color,
     'stroke-width': isSel ? 2.5 : 1.5,
     opacity: isSel ? 1 : 0.88
@@ -658,7 +699,7 @@ function drawStore(svg, store){
   });
   g.addEventListener('mouseleave',()=>{
     if(!isSel){
-      g.querySelector('rect').setAttribute('fill',color+'28');
+      g.querySelector('rect').setAttribute('fill',color+'18');
     }
   });
 }
@@ -929,6 +970,37 @@ function startIdle(){
 ['click','touchstart','keydown','mousemove'].forEach(ev=>document.addEventListener(ev,resetIdle,{passive:true}));
 
 // ═══════════════════════════════════════════════
+// PROMOTIONS
+// ═══════════════════════════════════════════════
+const PROMOS = [
+  { storeId: 1, deal: "Buy 1 Get 1 50% Off All Summer Styles!" },
+  { storeId: 13, deal: "Free Pastry with Any Large Artisan Coffee Before 11 AM" }
+];
+
+let curPromoIdx = 0;
+function rotatePromo() {
+  const promo = PROMOS[curPromoIdx];
+  const store = STORES.find(s => s.id === promo.storeId);
+  if (!store) return;
+
+  const col = catColor(store.cat);
+  const pc = document.getElementById('promo-content');
+  const pb = document.getElementById('promo-banner');
+
+  pc.style.opacity = '0';
+
+  setTimeout(() => {
+    pb.style.background = col;
+    pc.innerHTML = `
+      <div class="promo-store" style="background: rgba(0,0,0,0.2)">${store.name}</div>
+      <div class="promo-deal"><span style="font-size:15px; margin-right:4px">${store.icon}</span> ${promo.deal}</div>
+    `;
+    pc.style.opacity = '1';
+    curPromoIdx = (curPromoIdx + 1) % PROMOS.length;
+  }, 300);
+}
+
+// ═══════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════
 renderCats();
@@ -938,6 +1010,8 @@ setupSearch();
 tick();
 setInterval(tick,30000);
 resetIdle();
+rotatePromo();
+setInterval(rotatePromo, 5000);
 </script>
   <script>
     if ('serviceWorker' in navigator) {
