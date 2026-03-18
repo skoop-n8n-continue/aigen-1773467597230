@@ -301,7 +301,7 @@
 
   <!-- MAP -->
   <div class="map-wrap" id="map-wrap">
-    <svg id="mall-svg" viewBox="0 -50 1000 710" preserveAspectRatio="xMidYMid meet"></svg>
+    <svg id="mall-svg" viewBox="0 -70 1000 730" preserveAspectRatio="xMidYMid meet"></svg>
 
     <div class="legend">
       <div class="leg-title">Legend</div>
@@ -513,9 +513,9 @@ function drawMap(){
 
   // ── Parking Garage Entrance (North) ──
   const pgGroup = el('g', {transform: 'translate(500, 8)'}, svg);
-  el('rect', {x: -90, y: -45, width: 180, height: 50, rx: 6, fill: '#1a2636', stroke: '#2a3d52', 'stroke-width': 2}, pgGroup);
-  el('rect', {x: -60, y: -25, width: 120, height: 25, rx: 4, fill: '#0a1018'}, pgGroup);
-  const pgText = el('text', {x: 0, y: -31, 'text-anchor': 'middle', 'font-size': '10', 'font-family': 'Inter,sans-serif', fill: '#00b7af', 'font-weight': '700', 'letter-spacing': '1.5'}, pgGroup);
+  el('rect', {x: -120, y: -65, width: 240, height: 70, rx: 8, fill: '#1a2636', stroke: '#2a3d52', 'stroke-width': 3}, pgGroup);
+  el('rect', {x: -80, y: -35, width: 160, height: 35, rx: 5, fill: '#0a1018'}, pgGroup);
+  const pgText = el('text', {x: 0, y: -44, 'text-anchor': 'middle', 'font-size': '13', 'font-family': 'Inter,sans-serif', fill: '#00b7af', 'font-weight': '700', 'letter-spacing': '1.8'}, pgGroup);
   pgText.textContent = 'PARKING GARAGE';
 
   // ── Background ──
